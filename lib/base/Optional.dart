@@ -15,8 +15,6 @@ extension OptionalBool on bool {
 extension OptionalString on String {
   int get count => isNull ? 0 : length;
 
-  bool get hasChar => count > 0;
-
   String format(Map map) {
     return map.keys.fold<String>(this, (string, key) {
       return string.replaceAll('{${key.toString()}}', map[key].toString());
@@ -34,8 +32,6 @@ extension OptionalString on String {
 
 extension OptionalList<T> on Iterable<T> {
   int get count => isNull ? 0 : length;
-
-  bool get hasItem => count > 0;
 }
 
 extension OptionalMap<K, V> on Map<K, V> {
@@ -46,7 +42,7 @@ extension OptionalMap<K, V> on Map<K, V> {
   String toParams() {
     return entries
         .map((e) => e.value.isNull ? '' : '${e.key}=${e.value}')
-        .where((str) => str.hasChar)
+        .where((str) => str.count > 0)
         .join('&');
   }
 }
