@@ -7,7 +7,7 @@ class SearchState extends ChangeNotifier {
   static Provider provider({Key key, Widget child}) {
     return Provider<SearchState>(
       key: key,
-      create: () => SearchState(),
+      create: (_) => SearchState(),
       child: child,
     );
   }

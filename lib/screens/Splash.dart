@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
       setState(() => _step = 1);
       Future.wait([
         widget.future,
-        Future.delayed(const Duration(seconds: 2)),
+        Future.delayed(const Duration(seconds: 1)),
       ]).whenComplete(() => setState(() => _step = 2));
     });
   }

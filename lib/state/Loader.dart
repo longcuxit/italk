@@ -1,5 +1,6 @@
 part of 'export.dart';
 
+typedef AF<T> = List<List<T>> Function();
 class LoaderState extends ValueNotifier<bool> {
   final _loadings = <Future>[];
 
@@ -16,7 +17,7 @@ class LoaderState extends ValueNotifier<bool> {
   static Provider provider({Key key, Widget child}) {
     return Provider<LoaderState>(
       key: key,
-      create: () => LoaderState(),
+      create: (_) => LoaderState(),
       child: child,
     );
   }

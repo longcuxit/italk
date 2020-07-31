@@ -9,31 +9,38 @@ class ConfirmTexts {
   ConfirmTexts(this.title, this.message, {this.yes, this.no});
 }
 
-class ConfirmDialog extends AlertDialog {
+class ConfirmDialog extends StatelessWidget {
   final VoidCallback onAccept;
   final VoidCallback onCancel;
+  final ConfirmTexts texts;
 
   ConfirmDialog(
-    ConfirmTexts texts, {
+    this.texts, {
     Key key,
     this.onAccept,
     this.onCancel,
-  }) : super(
-          title: Text(texts.title),
-          content: Text(texts.message),
-          actions: <Widget>[
-            FlatButton(
-              onPressed: onCancel,
-              textTheme: ButtonTextTheme.accent,
-              child: Text(texts.no ?? 'Yes'),
-            ),
-            RaisedButton(
-              onPressed: onAccept,
-              textTheme: ButtonTextTheme.primary,
-              child: Text(texts.yes ?? 'No'),
-            ),
-          ],
-        );
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final i18n = I18n.of(context).system;
+    return AlertDialog(
+      title: Text(texts.title),
+      content: Text(texts.message),
+      actions: <Widget>[
+        FlatButton(
+          onPressed: onCancel,
+          textTheme: ButtonTextTheme.accent,
+          child: Text(texts.no ?? i18n.no),
+        ),
+        FlatButton(
+          onPressed: onAccept,
+          textTheme: ButtonTextTheme.primary,
+          child: Text(texts.yes ?? i18n.yes),
+        ),
+      ],
+    );
+  }
 }
 
 Future<bool> showConfirmDialog(
@@ -41,8 +48,7 @@ Future<bool> showConfirmDialog(
   ConfirmTexts texts, {
   barrierDismissible = false,
   bool useRootNavigator = true,
-  RoutePopDisposition noMethod = RoutePopDisposition.doNotPop,
-  RoutePopDisposition yesMethod = RoutePopDisposition.pop,
+  bool willPop = false,
 }) {
   return showDialog<bool>(
     context: context,
@@ -53,10 +59,13 @@ Future<bool> showConfirmDialog(
         context,
         rootNavigator: useRootNavigator,
       ).pop;
-      return ConfirmDialog(
-        texts,
-        onAccept: () => onPress(true),
-        onCancel: () => onPress(false),
+      return WillPopScope(
+        onWillPop: () async => willPop,
+        child: ConfirmDialog(
+          texts,
+          onAccept: () => onPress(true),
+          onCancel: () => onPress(false),
+        ),
       );
     },
   );

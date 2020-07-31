@@ -45,7 +45,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 }
 
+class Test extends DashBoardScreen{}
 List<TabScreenMixin Function()> _routers = [
   () => DashBoardScreen(),
-  () => DashBoardScreen(),
+  () => Test(),
 ];

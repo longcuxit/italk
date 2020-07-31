@@ -7,7 +7,7 @@ class SettingState extends ChangeNotifier {
   static Provider provider({Key key, Widget child}) {
     return Provider<SettingState>(
       key: key,
-      create: () => SettingState(),
+      create: (_) => SettingState(),
       child: child,
     );
   }

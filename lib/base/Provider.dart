@@ -2,7 +2,7 @@ part of 'export.dart';
 
 class Provider<T extends ChangeNotifier> extends StatefulWidget {
   final Widget child;
-  final T Function() create;
+  final T Function(BuildContext) create;
   final bool Function(T) isDispose;
 
   Provider({
@@ -37,13 +37,8 @@ class _ProviderState<T extends ChangeNotifier> extends State<Provider<T>> {
   T _state;
 
   @override
-  void initState() {
-    super.initState();
-    _state = widget.create();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    _state ??= widget.create(context);
     return widget.child;
   }
 

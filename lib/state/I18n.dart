@@ -8,7 +8,7 @@ class I18n extends ValueNotifier {
   static Provider provider({Key key, Widget child}) {
     return Provider<I18n>(
       key: key,
-      create: () => I18n(),
+      create: (_) => I18n(),
       child: child,
     );
   }
